@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lavapi Test File",
+  "type": "object",
+  "required": ["endpoint", "tests"],
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "The relative API endpoint path (e.g., /api/auth/login)"
+    },
+    "tests": {
+      "type": "object",
+      "properties": {
+        "functional": {
+          "type": "object",
+          "patternProperties": {
+            "^.*$": {
+              "type": "object",
+              "required": ["method", "body", "expect"],
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+                },
+                "headers": {
+                  "type": "object",
+                  "additionalProperties": { "type": "string" }
+                },
+                "body": {
+                  "type": "object"
+                },
+                "expect": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "number" },
+                    "body.token": { "type": "string" },
+                    "body.user.email": { "type": "string" }
+                  },
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "performance": {
+          "type": "object",
+          "patternProperties": {
+            "^.*$": {
+              "type": "object",
+              "required": ["method", "body", "load", "thresholds"],
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST", "GET", "PUT", "DELETE"]
+                },
+                "body": {
+                  "type": "object"
+                },
+                "load": {
+                  "type": "object",
+                  "required": ["users", "duration", "ramp_up"],
+                  "properties": {
+                    "users": { "type": "number" },
+                    "duration": { "type": "string" },
+                    "ramp_up": { "type": "string" }
+                  }
+                },
+                "thresholds": {
+                  "type": "object",
+                  "properties": {
+                    "response_time_p95": { "type": "string" },
+                    "error_rate": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
