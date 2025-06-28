@@ -55,8 +55,8 @@
                         { "type": "array" },
                         {
                           "type": "string",
-                          "pattern": "^!!(exists|not_exists|not .+)$",
-                          "description": "Reserved assertion: !!exists, !!not_exists, !!not value"
+                          "enum": ["!!exists", "!!not_exists"]
+                          "description": "Reserved assertion: !!exists, !!not_exists"
                         }
                       ]
                     }
