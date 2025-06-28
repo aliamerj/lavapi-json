@@ -55,62 +55,16 @@
                         { "type": "array" },
                         {
                           "type": "string",
-                          "enum": ["!!exists", "!!not_exists"]
+                          "enum": ["!!exists", "!!not_exists"],
                           "description": "Reserved assertion: !!exists, !!not_exists"
+                        },
+                        {
+                          "$ref": "#/properties/tests/properties/functional/patternProperties/^.*$/properties/expect/properties/body"
                         }
                       ]
                     }
                   },
                   "additionalProperties": true
-                }
-              }
-            }
-          }
-        },
-        "performance": {
-          "type": "object",
-          "patternProperties": {
-            "^.*$": {
-              "type": "object",
-              "required": ["method", "body", "load", "thresholds"],
-              "properties": {
-                "method": {
-                  "type": "string",
-                  "enum": ["POST", "GET", "PUT", "DELETE"]
-                },
-                "body": {
-                  "type": "object"
-                },
-                "load": {
-                  "type": "object",
-                  "required": ["users", "duration", "ramp_up"],
-                  "properties": {
-                    "users": {
-                      "type": "number",
-                      "description": "Number of simulated users"
-                    },
-                    "duration": {
-                      "type": "string",
-                      "description": "Total test duration (e.g., 30s, 2m)"
-                    },
-                    "ramp_up": {
-                      "type": "string",
-                      "description": "Ramp-up time for simulated users"
-                    }
-                  }
-                },
-                "thresholds": {
-                  "type": "object",
-                  "properties": {
-                    "response_time_p95": {
-                      "type": "string",
-                      "description": "95th percentile response time threshold (e.g., < 500ms)"
-                    },
-                    "error_rate": {
-                      "type": "string",
-                      "description": "Allowed error rate (e.g., < 2%)"
-                    }
-                  }
                 }
               }
             }
