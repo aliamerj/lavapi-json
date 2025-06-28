@@ -57,9 +57,6 @@
                           "type": "string",
                           "enum": ["!!exists", "!!not_exists"],
                           "description": "Reserved assertion: !!exists, !!not_exists"
-                        },
-                        {
-                          "$ref": "#/properties/tests/properties/functional/patternProperties/^.*$/properties/expect/properties/body"
                         }
                       ]
                     }
