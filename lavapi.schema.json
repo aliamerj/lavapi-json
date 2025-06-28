@@ -16,7 +16,7 @@
           "patternProperties": {
             "^.*$": {
               "type": "object",
-              "required": ["method", "body", "expect"],
+              "required": ["method", "expect"],
               "properties": {
                 "method": {
                   "type": "string",
@@ -27,14 +27,39 @@
                   "additionalProperties": { "type": "string" }
                 },
                 "body": {
-                  "type": "object"
+                  "type": "object",
+                  "description": "The request body sent to the API"
                 },
                 "expect": {
                   "type": "object",
+                  "description": "Expected response structure and status code",
                   "properties": {
-                    "status": { "type": "number" },
-                    "body.token": { "type": "string" },
-                    "body.user.email": { "type": "string" }
+                    "status": {
+                      "type": "number",
+                      "description": "Expected HTTP status code"
+                    },
+                    "body": {
+                      "type": "object",
+                      "description": "Expected JSON body structure (deep match)",
+                      "additionalProperties": true
+                    }
+                  },
+                  "patternProperties": {
+                    "^body\\..+$": {
+                      "description": "Flat-style body field match or reserved keyword",
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "number" },
+                        { "type": "boolean" },
+                        { "type": "object" },
+                        { "type": "array" },
+                        {
+                          "type": "string",
+                          "pattern": "^!!(exists|not_exists|not .+)$",
+                          "description": "Reserved assertion: !!exists, !!not_exists, !!not value"
+                        }
+                      ]
+                    }
                   },
                   "additionalProperties": true
                 }
@@ -60,16 +85,31 @@
                   "type": "object",
                   "required": ["users", "duration", "ramp_up"],
                   "properties": {
-                    "users": { "type": "number" },
-                    "duration": { "type": "string" },
-                    "ramp_up": { "type": "string" }
+                    "users": {
+                      "type": "number",
+                      "description": "Number of simulated users"
+                    },
+                    "duration": {
+                      "type": "string",
+                      "description": "Total test duration (e.g., 30s, 2m)"
+                    },
+                    "ramp_up": {
+                      "type": "string",
+                      "description": "Ramp-up time for simulated users"
+                    }
                   }
                 },
                 "thresholds": {
                   "type": "object",
                   "properties": {
-                    "response_time_p95": { "type": "string" },
-                    "error_rate": { "type": "string" }
+                    "response_time_p95": {
+                      "type": "string",
+                      "description": "95th percentile response time threshold (e.g., < 500ms)"
+                    },
+                    "error_rate": {
+                      "type": "string",
+                      "description": "Allowed error rate (e.g., < 2%)"
+                    }
                   }
                 }
               }
